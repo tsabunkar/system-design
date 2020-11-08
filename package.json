@@ -1,0 +1,24 @@
+{
+  "name": "system-design",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-interaction": "node http-protocol/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsabunkar/system-design.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tsabunkar/system-design/issues"
+  },
+  "homepage": "https://github.com/tsabunkar/system-design#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
