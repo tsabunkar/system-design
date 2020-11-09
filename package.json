@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-interaction": "node http-protocol/server.js"
+    "start-interaction": "node http-protocol/server.js",
+    "start-storage": "node storage/app.js"
   },
   "repository": {
     "type": "git",
