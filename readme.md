@@ -1,5 +1,7 @@
 # System Design
 
+- GoodNotes: https://drive.google.com/drive/folders/1WF7gOTTMT9tNCgNlbOXsxa3h8zHkVioq?usp=sharing
+
 ## Cache:
 
 - \$ cd cache
