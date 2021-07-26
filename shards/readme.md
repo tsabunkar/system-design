@@ -1,5 +1,6 @@
 # Shards
 
+- Conceptually: https://drive.google.com/file/d/194DELG4_vMRMxZUQOrbIlUWz9Q-MqYzR/view?usp=sharing
 - Think we have two shards i.e- `aedb_data_0` and `aedb_data_1` (folders)
 - Think Reverse proxy as : `aedb_proxy.js`
 - Open Four Terminals: (Before every terminal ==> \$ cd shards)
