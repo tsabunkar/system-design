@@ -1,0 +1,5 @@
+- If you run the command with in the 5 secs then it would be rate limited
+  - \$ curl -H 'user:Tejas' http://localhost:3000/index.html
+- but open another command prompt and run with different user
+  - \$ curl -H 'user:Usha' http://localhost:3000/index.html
+- Each of these users has there own rate limit of 5sec for every request that was send previously
