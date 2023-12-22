@@ -1,0 +1,12 @@
+{
+  "name": "pub-sub",
+  "version": "1.0.0",
+  "description": "- Combining Amazon SNS (Simple Notification Service) with Amazon SQS (Simple Queue Service) creates a scenario where SNS acts as a publisher to a topic, and SQS queues subscribe to that topic to receive messages - SDK for JavaScript installed (npm install aws-sdk).",
+  "main": "send-message-sns.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
