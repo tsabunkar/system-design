@@ -1,31 +1,40 @@
-const AWS = require("aws-sdk");
+import {
+  SNSClient,
+  PublishCommand,
+  CreateTopicCommand,
+} from "@aws-sdk/client-sns";
 
-// Set the region for AWS services
-AWS.config.update({ region: "YOUR_REGION" });
+// Set the AWS region
+const region = "us-east-1"; // N.Virinia
 
 // Initialize the SNS client
-const sns = new AWS.SNS();
+const snsClient = new SNSClient({ region });
 
-// Create an SNS topic
-sns.createTopic({ Name: "MyTopic" }, (err, data) => {
-  if (err) {
-    console.error("Error creating SNS topic:", err);
-  } else {
-    const topicArn = data.TopicArn;
+// Create an SNS topic and publish a message
+const createTopicAndPublish = async () => {
+  try {
+    const createTopicCommand = new CreateTopicCommand({ Name: "Channel1" });
+    const createTopicResponse = await snsClient.send(createTopicCommand);
+    const topicArn = createTopicResponse.TopicArn;
+
+    const messageToSend = "Hello from SNS Publisher send from Mbp!";
+    const publishCommand = new PublishCommand({
+      TopicArn: topicArn,
+      Message: messageToSend,
+    });
 
     // Publish a message to the topic
-    sns.publish(
-      {
-        TopicArn: topicArn,
-        Message: "Hello from SNS!",
-      },
-      (publishErr, publishData) => {
-        if (publishErr) {
-          console.error("Error publishing message:", publishErr);
-        } else {
-          console.log("Message published:", publishData.MessageId);
-        }
-      }
+    const publishResponse = await snsClient.send(publishCommand);
+
+    console.log(
+      "Message published:",
+      publishResponse,
+      "with Message - ",
+      messageToSend
     );
+  } catch (error) {
+    console.error("Error:", error);
   }
-});
+};
+
+createTopicAndPublish();

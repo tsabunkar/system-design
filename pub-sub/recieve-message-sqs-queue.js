@@ -1,40 +1,49 @@
 // Receive messages from the SQS queue
-const receiveParams = {
-  QueueUrl: "YOUR_QUEUE_URL", // Use the URL of the SQS queue obtained from the creation step
-  MaxNumberOfMessages: 1,
-  WaitTimeSeconds: 20, // Long polling for messages
-};
 
-const receiveMessages = () => {
-  sqs.receiveMessage(receiveParams, (receiveErr, receiveData) => {
-    if (receiveErr) {
-      console.error("Error receiving messages from SQS:", receiveErr);
-    } else {
-      if (receiveData.Messages && receiveData.Messages.length > 0) {
-        receiveData.Messages.forEach((message) => {
-          console.log("Received message:", message.Body);
+// To receive messages from an SQS queue using AWS SDK v3, refer to the SDK documentation for specific methods and usage.
+// Example code might resemble this logic (not the exact implementation):
 
-          // Delete the received message from the queue
-          const deleteParams = {
-            QueueUrl: receiveParams.QueueUrl,
-            ReceiptHandle: message.ReceiptHandle,
-          };
+import {
+  ReceiveMessageCommand,
+  DeleteMessageCommand,
+  SQSClient,
+} from "@aws-sdk/client-sqs";
 
-          sqs.deleteMessage(deleteParams, (deleteErr) => {
-            if (deleteErr) {
-              console.error("Error deleting message:", deleteErr);
-            } else {
-              console.log("Message deleted from queue");
-            }
-          });
+const region = "us-east-1";
+
+const sqsClient = new SQSClient({ region });
+const queueUrl = "https://sqs.us-east-1.amazonaws.com/494039644227/MyQueue1";
+
+const receiveMessages = async () => {
+  try {
+    const receiveMessageCommand = new ReceiveMessageCommand({
+      QueueUrl: queueUrl, // Replace with your SQS queue URL
+      MaxNumberOfMessages: 2,
+      WaitTimeSeconds: 20, // Long polling for messages
+    });
+    const receiveMessageResponse = await sqsClient.send(receiveMessageCommand);
+
+    if (
+      receiveMessageResponse.Messages &&
+      receiveMessageResponse.Messages.length > 0
+    ) {
+      receiveMessageResponse.Messages.forEach(async (message) => {
+        console.log("Received message:", message.Body);
+
+        const deleteMessageCommand = new DeleteMessageCommand({
+          QueueUrl: queueUrl, // Replace with your SQS queue URL
+          ReceiptHandle: message.ReceiptHandle,
         });
-      } else {
-        console.log("No messages received.");
-      }
-      // Receive more messages if available
-      receiveMessages();
+        await sqsClient.send(deleteMessageCommand);
+
+        console.log("Message deleted from queue");
+      });
+    } else {
+      console.log("No messages received.");
     }
-  });
+  } catch (error) {
+    console.error("Error:", error);
+  }
 };
 
 receiveMessages();
