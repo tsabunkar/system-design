@@ -22,7 +22,6 @@ const receiveMessages = async () => {
       WaitTimeSeconds: 20, // Long polling for messages
     });
     const receiveMessageResponse = await sqsClient.send(receiveMessageCommand);
-
     if (
       receiveMessageResponse.Messages &&
       receiveMessageResponse.Messages.length > 0
