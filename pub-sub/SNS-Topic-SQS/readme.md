@@ -25,6 +25,7 @@
 
 # How to run the files in Sequence
 
+- ![Pub-Sub Model](./img/pub-sub-basic-model.png)
 - node send-message-sns.js
 - node subscribe-sqs-queue.js
 - node recieve-message-sqs-queue.js
