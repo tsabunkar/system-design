@@ -7,14 +7,14 @@ def mapper(text):
     word_count = {} # creating hashMap
 
     for word in words:
-        print(word)
+        # print(word)
         word_count[word] = word_count.get(word, 0) + 1 # If the key has the word than increment or just initalize with Zero
 
-    return word_count
+    return word_count.items()
 
-print(mapper("This is an example of MapReduce, MapReduce is a programming model for data processing."))
+# print(mapper("This is an example of MapReduce, MapReduce is a programming model for data processing."))
 
-print("______________________")
+# print("______________________")
 
 def reducer(word_count_pairs):
     word_count = {}
@@ -27,4 +27,13 @@ def reducer(word_count_pairs):
     return word_count.items()
     
 
-print(reducer(mapper("This is an example of MapReduce, MapReduce is a programming model for data processing.")))
+input_text = "This is an example of MapReduce. MapReduce is a programming model for data processing."
+
+mapped_key_value =  mapper(input_text)
+# print(mapped_key_value)
+reduced_data = reducer(mapped_key_value)
+
+print("word Count:")
+for word, count in reduced_data:
+    print(f"{word}: {count}")
+
