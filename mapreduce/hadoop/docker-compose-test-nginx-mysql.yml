@@ -1,0 +1,30 @@
+version: "3.9" # Specify the Docker Compose file format version
+
+services: # Define the services in the application
+  web_app: # Service for the web application
+    image: nginx:latest # Use the official Nginx image from Docker Hub
+    ports:
+      - "8080:80" # Map host port 8080 to container port 80
+    volumes:
+      - ./web_content:/usr/share/nginx/html # Mount local directory as volume in the container
+    networks:
+      - my_network # Attach the service to a user-defined network
+
+  database: # Service for the database
+    image: mysql:latest #  Use the official MySQL image from Docker Hub
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password # Set environment variables
+      MYSQL_DATABASE: my_db
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: my_password
+    volumes:
+      - db_data:/var/lib/mysql # Mount volume for database data persistence
+    networks:
+      - my_network # Attach the service to the same network as web_app
+
+volumes: # Define named volumes
+  db_data: # Volume for database data persistence
+
+networks: # Define a user-defined network
+  my_network: # User-defined network named "my_network"
+    driver: bridge # Use the default bridge network driver

@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  hadoop_upload:
+    image: sequenceiq/hadoop-docker:2.7.1
+    container_name: hadoop_upload
+    environment:
+      - CLUSTER_NAME=hadoop-cluster
+      - SERVICE_PRECONDITION=hadoop_upload
+    volumes:
+      - ./sample2.doc:/sample2.doc # Mount the local file into the container
+    command: /bin/bash -c "/usr/local/hadoop/bin/hadoop fs -put /Users/tsabunkar/Developer/Workspace/vsc/system-design/mapreduce/hadoop/sample2.doc /Users/tsabunkar/Developer/Workspace/vsc/system-design/mapreduce/hadoop/dest/uploaded_file.doc"
