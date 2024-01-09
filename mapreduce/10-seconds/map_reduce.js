@@ -8,8 +8,8 @@ function getMapInput(fileName) {
 }
 
 function emitMapResult(key, value) {
-  const fileName = `${HOST}/map_result/${key}.txt`;
-  return fs.appendFileSync(fileName, value, "\n");
+  const fileName = `${HOST}/map_results/${key}.txt`;
+  return fs.appendFileSync(fileName, value + "\n");
 }
 
 function getReduceInputs() {
