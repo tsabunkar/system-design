@@ -1,52 +1,44 @@
 class WriteAroundCache:
-    def __init__(self, capacity):
-        self.capacity = capacity #capcity of the cache
-        self.cache = {} #in-memory cache
-        self.mainDB = {} #Main Storage
-    
-    def get(self, key):
-        if key in self.cache:
-            return self.cache[key] #provide the value of the key
-        else:
-            # Simulating reading from main storage in case of a cache miss
-            # In a real-world scenario, you would fetch the data from the main storage here
-            print(f"Reading from main storage for key: {key}")
-            self.updateCache(self, key, value)
-            return None
+    def __init__(self):
+        self.cache = {}
+        self.storage = {}
 
-    
-    def put(self, key, value):
-        # Simulating writing to main storage in a write-Around manner
-        print(f"Writing to main storage for key: {key}, value: {value}")
-        self.mainDB[key] = value  # write the data to the main storage here
-        
-    def updateCache(self, key, value):
-         # Update the cache
-        self.cache[key] = value
-            
-        # Ensure the cache does not exceed its capacity
-        if len(self.cache) > self.capacity:
-            oldest_key = next(iter(self.cache))
-            del self.cache[oldest_key]
+    def read(self, key):
+        if key in self.cache:
+            print("Reading from cache...")
+            return self.cache[key]
+        else:
+            print("Reading from storage...")
+            if key in self.storage:
+                # Cache miss, fetch from storage
+                self.cache[key] = self.storage[key]
+                return self.cache[key]
+            else:
+                return None  # Key not found in storage
+
+    def write(self, key, value):
+        print("Writing to storage...")
+        self.storage[key] = value
+        # Remove key from cache to ensure fresh data is fetched on next read
+        if key in self.cache:
+            del self.cache[key]
 
 # Example usage:
-cache = WriteThroughCache(3)
+cache = WriteAroundCache()
 
-# Writing to the cache triggers write-through to main storage
-cache.put("key1", "value1")
-cache.put("key2", "value2")
+# Write data directly to storage
+cache.write('key1', 'value1')
+cache.write('key2', 'value2')
 
-# Reading from the cache (no write-through as it's a cache hit)
-result = cache.get("key1")
-print(f"Value for key1: {result}")
+# Read data (first read should fetch from storage)
+print(cache.read('key1'))  # Output: Reading from storage... value1
 
-# Writing to the cache triggers write-through to main storage
-cache.put("key3", "value3")
+# Subsequent reads should fetch from cache
+print(cache.read('key1'))  # Output: Reading from cache... value1
+print(cache.read('key2'))  # Output: Reading from Storage... value2
 
-# Reading from the cache (no write-through as it's a cache hit)
-result = cache.get("key2")
-print(f"Value for key2: {result}")
+# Overwrite data
+cache.write('key1', 'new_value1')
 
-# Reading from the cache (cache miss, triggers read from main storage)
-result = cache.get("key4")
-print(f"Value for key4: {result}")
+# Cache should be updated with new value
+print(cache.read('key1'))  # Output: Reading from Storage... new_value1
